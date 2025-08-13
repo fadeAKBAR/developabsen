@@ -1,4 +1,3 @@
-// Ganti dengan URL API Anda jika berubah
 const API_URL = "https://script.google.com/macros/s/AKfycbzuiAmdFHSQ5c1uZUmxwhNUh7fI16bpBWE-GBt9hM_9QJDNkV4n1IXnpZWo-eyfMNl1/exec";
 
 let currentUser = null;
@@ -15,11 +14,17 @@ const dashboardWelcome = document.getElementById('dashboard-welcome');
 const checkInBtn = document.getElementById('check-in-btn');
 const checkOutBtn = document.getElementById('check-out-btn');
 const presenceMessage = document.getElementById('presence-message');
+const openIzinModalBtn = document.getElementById('open-izin-modal-btn');
+const izinModal = document.getElementById('izin-modal');
+const izinForm = document.getElementById('izin-form');
+const izinCancelBtn = document.getElementById('izin-cancel-btn');
+const izinMessage = document.getElementById('izin-message');
+
 
 // --- Event Listener Utama ---
 document.addEventListener('DOMContentLoaded', () => {
     loginForm.addEventListener('submit', handleLogin);
-
+    
     togglePasswordSiswa.addEventListener('click', function () {
         const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
         passwordInput.setAttribute('type', type);
@@ -30,11 +35,56 @@ document.addEventListener('DOMContentLoaded', () => {
     checkInBtn.addEventListener('click', () => handlePresence('checkin'));
     checkOutBtn.addEventListener('click', () => handlePresence('checkout'));
 
+    // Event listener untuk modal izin
+    openIzinModalBtn.addEventListener('click', (e) => { e.preventDefault(); izinModal.classList.remove('hidden'); });
+    izinCancelBtn.addEventListener('click', () => izinModal.classList.add('hidden'));
+    izinForm.addEventListener('submit', handleIzinSubmission);
+
     loadSavedCredentials();
 });
 
-// --- Fungsi-fungsi ---
+// --- FUNGSI BARU UNTUK MENGIRIM FORM IZIN ---
+function handleIzinSubmission(event) {
+    event.preventDefault();
+    izinMessage.textContent = 'Mengirim pengajuan...';
+    izinMessage.style.color = 'gray';
 
+    const payload = {
+        action: 'ajukanIzin',
+        studentId: document.getElementById('izin-id-siswa').value,
+        tanggalIzin: document.getElementById('izin-tanggal').value,
+        statusIzin: document.getElementById('izin-status').value,
+        keterangan: document.getElementById('izin-keterangan').value
+    };
+
+    fetch(API_URL, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.status === 'success') {
+            izinMessage.textContent = result.message;
+            izinMessage.style.color = 'green';
+            izinForm.reset(); // Kosongkan form setelah berhasil
+            setTimeout(() => {
+                izinModal.classList.add('hidden');
+                izinMessage.textContent = '';
+            }, 3000); // Tutup modal setelah 3 detik
+        } else {
+            izinMessage.textContent = result.message;
+            izinMessage.style.color = 'red';
+        }
+    })
+    .catch(error => {
+        console.error('Izin submission error:', error);
+        izinMessage.textContent = 'Terjadi kesalahan. Gagal mengirim pengajuan.';
+        izinMessage.style.color = 'red';
+    });
+}
+
+
+// --- Fungsi-fungsi lain (tidak ada perubahan) ---
 function loadSavedCredentials() {
     const savedId = localStorage.getItem('savedStudentId');
     const savedPassword = localStorage.getItem('savedPassword');
@@ -43,7 +93,6 @@ function loadSavedCredentials() {
         passwordInput.value = savedPassword;
     }
 }
-
 function getOrCreateDeviceId() {
     let deviceId = localStorage.getItem('presensiDeviceId');
     if (!deviceId) {
@@ -52,19 +101,16 @@ function getOrCreateDeviceId() {
     }
     return deviceId;
 }
-
 function handleLogin(event) {
     event.preventDefault();
     loginMessage.textContent = 'Mencoba login...';
     loginMessage.style.color = 'gray';
-
     const payload = {
         action: 'loginSiswa',
         studentId: studentIdInput.value,
         password: passwordInput.value,
         deviceId: getOrCreateDeviceId()
     };
-
     fetch(API_URL, {
         method: 'POST',
         body: JSON.stringify(payload),
@@ -85,22 +131,18 @@ function handleLogin(event) {
         showLoginError("Terjadi kesalahan. Cek koneksi internet.");
     });
 }
-
 function showDashboard() {
     loginContainer.classList.add('hidden');
     dashboardContainer.classList.remove('hidden');
     dashboardWelcome.textContent = `Selamat Datang, ${currentUser.nama}!`;
     checkInitialPresenceStatus();
 }
-
 function handlePresence(action) {
     checkInBtn.disabled = true;
     checkOutBtn.disabled = true;
-
     if (action === 'checkin') {
         presenceMessage.textContent = 'Mendapatkan lokasi Anda...';
         presenceMessage.style.color = 'gray';
-        
         navigator.geolocation.getCurrentPosition(
             position => {
                 const payload = {
@@ -117,7 +159,6 @@ function handlePresence(action) {
                 else if(error.code === 2) errorMessage += "Informasi lokasi tidak tersedia.";
                 else if(error.code === 3) errorMessage += "Waktu permintaan lokasi habis.";
                 else errorMessage += "Terjadi kesalahan tidak dikenal.";
-                
                 presenceMessage.textContent = errorMessage;
                 presenceMessage.style.color = 'red';
                 checkInitialPresenceStatus();
@@ -133,7 +174,6 @@ function handlePresence(action) {
         sendPresenceData(payload);
     }
 }
-
 function sendPresenceData(payload) {
     fetch(API_URL, {
         method: 'POST',
@@ -151,9 +191,7 @@ function sendPresenceData(payload) {
         checkInitialPresenceStatus();
     });
 }
-
 function checkInitialPresenceStatus() {
-    // Memberi jeda agar pesan semangat bisa terbaca sebelum status diperbarui
     setTimeout(() => {
         presenceMessage.textContent = 'Mengecek status kehadiran...';
         presenceMessage.style.color = 'gray';
@@ -167,18 +205,15 @@ function checkInitialPresenceStatus() {
                     presenceMessage.style.color = 'red';
                 }
             });
-    }, 4000); // Pesan akan tampil selama 4 detik
+    }, 4000);
 }
-
 function updateButtonState(presenceData) {
     document.getElementById('current-time').textContent = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute:'2-digit', weekday: 'long', day: 'numeric', month: 'long' });
-    
     if (!presenceMessage.textContent.includes("berhasil") && !presenceMessage.textContent.includes("tercepat")) {
         presenceMessage.textContent = '';
     }
-
     if (presenceData) {
-        if (presenceData.checkOutTime) {
+        if (presenceMessage.checkOutTime) {
             checkInBtn.disabled = true;
             checkOutBtn.disabled = true;
             presenceMessage.textContent = `Presensi hari ini selesai. Check-in pukul ${presenceData.checkInTime}, Check-out pukul ${presenceData.checkOutTime}.`;
@@ -198,7 +233,6 @@ function updateButtonState(presenceData) {
         presenceMessage.textContent = 'Anda belum melakukan check-in hari ini.';
     }
 }
-
 function showLoginError(message) {
     loginMessage.textContent = message;
     loginMessage.style.color = 'red';
