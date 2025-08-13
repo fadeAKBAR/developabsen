@@ -24,7 +24,7 @@
         </form>
         <p id="login-message"></p>
 
-        <a href="#" id="open-izin-modal-btn" class="izin-link">Ajukan Izin atau Sakit</a>
+        <a href="izin.html" class="izin-link">Ajukan Izin atau Sakit</a>
 
         <p class="beta-notice">
             Aplikasi ini dalam tahap pengembangan (Beta Version) dan hanya digunakan untuk uji coba internal kelas XI TJKT 3 (Axioo Class Program) SMKN 3 Soppeng.
@@ -37,36 +37,6 @@
     <footer>
         Copyright &copy; Fadlan Akbar 2025
     </footer>
-    
-    <div id="izin-modal" class="modal-overlay hidden">
-        <div class="modal-content">
-            <h2>Form Pengajuan Izin/Sakit</h2>
-            <form id="izin-form">
-                <label for="izin-id-siswa">ID Siswa (NIS):</label>
-                <input type="number" id="izin-id-siswa" placeholder="Masukkan ID Siswa Anda" required>
-
-                <label for="izin-tanggal">Untuk Tanggal:</label>
-                <input type="date" id="izin-tanggal" required>
-
-                <label for="izin-status">Status:</label>
-                <select id="izin-status" required>
-                    <option value="" disabled selected>-- Pilih Status --</option>
-                    <option value="Izin">Izin</option>
-                    <option value="Sakit">Sakit</option>
-                </select>
-
-                <label for="izin-keterangan">Keterangan:</label>
-                <textarea id="izin-keterangan" rows="3" placeholder="Contoh: Ada acara keluarga di luar kota." required></textarea>
-
-                <div class="modal-actions">
-                    <button type="submit">Kirim Pengajuan</button>
-                    <button type="button" id="izin-cancel-btn">Batal</button>
-                </div>
-            </form>
-            <p id="izin-message"></p>
-        </div>
-    </div>
-
     <script src="script.js"></script>
 </body>
 </html>
