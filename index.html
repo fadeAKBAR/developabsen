@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Presensi SMKN 3 SOPPENG</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+</head>
+<body>
+    <div id="login-container">
+        <img src="https://raw.githubusercontent.com/localzero97/sistem-presensi/main/Logo%20SMKN%203%20SOPPENG.png" alt="Logo SMKN 3 Soppeng" class="school-logo">
+        <h1>PRESENSI KELAS</h1>
+        <form id="login-form">
+            <h2>Silakan Login</h2>
+            <input type="number" id="student-id" placeholder="Masukkan ID Siswa (NIS)" required>
+            <div class="password-wrapper">
+                <input type="password" id="password" placeholder="Masukkan Password" required>
+                <i class="fa-solid fa-eye toggle-password" id="toggle-password-siswa"></i>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+        <p id="login-message"></p>
+        <p class="beta-notice">
+            Aplikasi ini dalam tahap pengembangan (Beta Version) dan hanya digunakan untuk uji coba internal kelas XI TJKT 3 (Axioo Class Program) SMKN 3 Soppeng.
+        </p>
+    </div>
+    <div id="dashboard-container" class="hidden">
+        <header>
+            <h1 id="dashboard-welcome"></h1>
+            <p id="current-time"></p>
+        </header>
+        <main>
+            <h2>Aksi Presensi</h2>
+            <button id="check-in-btn">Check-In Sekarang</button>
+            <button id="check-out-btn" disabled>Check-Out Sekarang</button>
+            <p id="presence-message"></p>
+        </main>
+    </div>
+    <footer>
+        Copyright &copy; Fadlan Akbar 2025
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
