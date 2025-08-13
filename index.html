@@ -5,9 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Presensi SMKN 3 SOPPENG</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 </head>
 <body>
+
     <div id="login-container">
         <img src="https://raw.githubusercontent.com/localzero97/sistem-presensi/main/Logo%20SMKN%203%20SOPPENG.png" alt="Logo SMKN 3 Soppeng" class="school-logo">
         <h1>PRESENSI KELAS</h1>
@@ -21,25 +23,50 @@
             <button type="submit">Login</button>
         </form>
         <p id="login-message"></p>
+
+        <a href="#" id="open-izin-modal-btn" class="izin-link">Ajukan Izin atau Sakit</a>
+
         <p class="beta-notice">
             Aplikasi ini dalam tahap pengembangan (Beta Version) dan hanya digunakan untuk uji coba internal kelas XI TJKT 3 (Axioo Class Program) SMKN 3 Soppeng.
         </p>
     </div>
+
     <div id="dashboard-container" class="hidden">
-        <header>
-            <h1 id="dashboard-welcome"></h1>
-            <p id="current-time"></p>
-        </header>
-        <main>
-            <h2>Aksi Presensi</h2>
-            <button id="check-in-btn">Check-In Sekarang</button>
-            <button id="check-out-btn" disabled>Check-Out Sekarang</button>
-            <p id="presence-message"></p>
-        </main>
-    </div>
+        </div>
+
     <footer>
         Copyright &copy; Fadlan Akbar 2025
     </footer>
+    
+    <div id="izin-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h2>Form Pengajuan Izin/Sakit</h2>
+            <form id="izin-form">
+                <label for="izin-id-siswa">ID Siswa (NIS):</label>
+                <input type="number" id="izin-id-siswa" placeholder="Masukkan ID Siswa Anda" required>
+
+                <label for="izin-tanggal">Untuk Tanggal:</label>
+                <input type="date" id="izin-tanggal" required>
+
+                <label for="izin-status">Status:</label>
+                <select id="izin-status" required>
+                    <option value="" disabled selected>-- Pilih Status --</option>
+                    <option value="Izin">Izin</option>
+                    <option value="Sakit">Sakit</option>
+                </select>
+
+                <label for="izin-keterangan">Keterangan:</label>
+                <textarea id="izin-keterangan" rows="3" placeholder="Contoh: Ada acara keluarga di luar kota." required></textarea>
+
+                <div class="modal-actions">
+                    <button type="submit">Kirim Pengajuan</button>
+                    <button type="button" id="izin-cancel-btn">Batal</button>
+                </div>
+            </form>
+            <p id="izin-message"></p>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
