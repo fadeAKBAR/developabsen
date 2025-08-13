@@ -2,7 +2,6 @@ const API_URL = "https://script.google.com/macros/s/AKfycbzuiAmdFHSQ5c1uZUmxwhNU
 
 let currentUser = null;
 
-// Menangkap semua elemen dari HTML
 const loginContainer = document.getElementById('login-container');
 const dashboardContainer = document.getElementById('dashboard-container');
 const loginForm = document.getElementById('login-form');
@@ -14,26 +13,19 @@ const dashboardWelcome = document.getElementById('dashboard-welcome');
 const checkInBtn = document.getElementById('check-in-btn');
 const checkOutBtn = document.getElementById('check-out-btn');
 const presenceMessage = document.getElementById('presence-message');
-const openIzinModalBtn = document.getElementById('open-izin-modal-btn');
-const izinModal = document.getElementById('izin-modal');
-const izinForm = document.getElementById('izin-form');
-const izinCancelBtn = document.getElementById('izin-cancel-btn');
-const izinMessage = document.getElementById('izin-message');
 
-
-// --- Event Listener Utama ---
 document.addEventListener('DOMContentLoaded', () => {
     loginForm.addEventListener('submit', handleLogin);
-    
     togglePasswordSiswa.addEventListener('click', function () {
         const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
         passwordInput.setAttribute('type', type);
         this.classList.toggle('fa-eye');
         this.classList.toggle('fa-eye-slash');
     });
-
     checkInBtn.addEventListener('click', () => handlePresence('checkin'));
     checkOutBtn.addEventListener('click', () => handlePresence('checkout'));
+    loadSavedCredentials();
+});
 
     // Event listener untuk modal izin
     openIzinModalBtn.addEventListener('click', (e) => { e.preventDefault(); izinModal.classList.remove('hidden'); });
