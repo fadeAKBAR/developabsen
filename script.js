@@ -1,5 +1,5 @@
 // Ganti dengan URL API Anda jika berubah
-const API_URL = "https://script.google.com/macros/s/AKfycbz3b0pBBiK7aJSxsxWXV_EzxojTP4OUNsLGwjogj-iSKnUAG5S1ImQEcfqgZrwOTk0/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbzuk4NQVpK7es_d7qF9zX_svNiDFaR8SBjifBKmgUlZkjvvOnfaXqU8CECqaStJG6wJ/exec";
 
 let currentUser = null;
 
