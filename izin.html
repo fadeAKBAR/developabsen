@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengajuan Izin/Sakit</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="form-container">
+        <h1>Form Pengajuan Izin/Sakit</h1>
+        <p>Silakan isi data di bawah ini dengan lengkap.</p>
+        <form id="izin-form">
+            <label for="izin-id-siswa">ID Siswa (NIS):</label>
+            <input type="number" id="izin-id-siswa" placeholder="Masukkan ID Siswa Anda" required>
+
+            <label for="izin-tanggal">Untuk Tanggal:</label>
+            <input type="date" id="izin-tanggal" required>
+
+            <label for="izin-status">Status:</label>
+            <select id="izin-status" required>
+                <option value="" disabled selected>-- Pilih Status --</option>
+                <option value="Izin">Izin</option>
+                <option value="Sakit">Sakit</option>
+            </select>
+
+            <label for="izin-keterangan">Keterangan:</label>
+            <textarea id="izin-keterangan" rows="4" placeholder="Contoh: Ada acara keluarga di luar kota." required></textarea>
+
+            <button type="submit">Kirim Pengajuan</button>
+        </form>
+        <p id="izin-message"></p>
+        <a href="index.html" class="izin-link">Kembali ke Halaman Login</a>
+    </div>
+
+    <script src="izin.js"></script>
+</body>
+</html>
